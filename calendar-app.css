@@ -1,0 +1,85 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.app-body {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(220,220,220);
+}
+
+@media only screen and (min-width: 0px) {  /* MOBILE */
+    nav {
+        width: 250px;
+        height: 100%;
+        position: relative;
+        top: 0px;
+        left: -250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: rgb(70, 116, 200);
+        z-index: 2;
+    }
+        .menu-button-box {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 30px;
+            right: -60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: inherit;
+            border-radius: 0px 12px 12px 0px;
+            border: 0px solid red;  /*TEST*/
+        }
+        .menu-button-box::before {
+            content: '';
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: -30px;
+            left: 0px;
+            background-color: transparent;
+            border-radius: 0px 0px 0px 12px;
+            box-shadow: -6px 6px 0px 0px rgb(70, 116, 200);
+        }
+        .menu-button-box::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            bottom: -30px;
+            left: 0px;
+            background-color: transparent;
+            border-radius: 12px 0px 0px 0px;
+            box-shadow: -6px -6px 0px 0px hsl(219, 54%, 53%);
+        }
+            .menu-arrow {
+                width: 35px;
+                height: 35px;
+                color: white;
+                transform: rotateZ(180deg);
+            }
+            .menu-arrow:hover {
+                cursor: pointer;
+                background-color: hsl(219, 54%, 59%);
+            }
+            .menu-arrow:active {
+                background-color: hsl(219, 54%, 66%);
+            }
+}
+
+@media only screen and (min-width: 900px) {  /* MOBILE */
+    
+}
