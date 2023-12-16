@@ -31,7 +31,7 @@ class Layout_DESKTOP implements Layout_DESKTOP {
         }, false);
     }
     public setContentCalendarBox_Width_AEL(): void {
-        let sidebar_LEFT: number = -250;
+        let sidebar_LEFT: number = 250;
         let sidebar_LEFT_PRP: number = 0;
         ['load', 'resize'].forEach((ev) => {
             window.addEventListener(ev, () => {   
@@ -54,9 +54,9 @@ class Layout_DESKTOP implements Layout_DESKTOP {
         let result_WIDTH: number = (window.innerWidth - questBox_WIDTH - sidebar_LEFT_PRP);
         calenContBox_EL.style.width = result_WIDTH + 'px';
         calenContBox_EL.style.transitionDuration = time;
-        /*console.log('window.innerWidth: ' + window.innerWidth + ' | questBox_WIDTH: ' + questBox_WIDTH + ' | sidebar_LEFT_PRP: ' + sidebar_LEFT_PRP);
+        console.log('window.innerWidth: ' + window.innerWidth + ' | questBox_WIDTH: ' + questBox_WIDTH + ' | sidebar_LEFT_PRP: ' + sidebar_LEFT_PRP);
         console.log('result: ' + result_WIDTH);
-        console.log('sidebar_LEFT: ' + sidebar_LEFT);*/
+        //console.log('sidebar_LEFT: ' + sidebar_LEFT);
     }
 };
 
