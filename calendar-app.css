@@ -134,22 +134,49 @@ body {
                     letter-spacing: 1px;
                     border: 0px solid red;  /*TEST*/
                 }
+                    :root {
+                        --arrow-dim: 45px;
+                    }
                     .ty-prev-arrow {
-                        width: 20px;
+                        width: var(--arrow-dim);
                         height: 100%;
+                        margin-left: -18px;
                         position: absolute;
-                        left: -37px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        left: -30px;
+                        border: 0px solid red;  /*TEST*/
                     }
                     .ty-next-arrow {
-                        width: 20px;
+                        width: var(--arrow-dim);
                         height: 100%;
+                        margin-right: -18px;
                         position: absolute;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
                         right: -30px;
+                        border: 0px solid red;  /*TEST*/
                     }
+                        .bi-arrow-left-short, .bi-arrow-right-short {
+                            width: var(--arrow-dim);
+                            height: var(--arrow-dim);
+                            border: 0px solid orange;  /*TEST*/
+                        }
+                        .bi-arrow-left-short:hover, .bi-arrow-right-short:hover {
+                            cursor: pointer;
+                            background-color: hsl(219, 54%, 59%);
+                        }
+                        .bi-arrow-left-short:active, .bi-arrow-right-short:active {
+                            background-color: hsl(219, 54%, 66%);
+                        }
             .month-box {
                 width: 100%;
                 height: 400px;  /*auto - ZRÓB!*/
-                border: 3px solid pink;  /*TEST*/
+                border: 0px solid red;  /*TEST*/
             }
         :root {
             --quest-box-width: 400px;
@@ -159,7 +186,7 @@ body {
             height: 100%;
             position: relative;
             background-color: var(--calendar-bgcolor);
-            border: 0px dotted crimson;  /*TEST*/
+            border: 0px solid crimson;  /*TEST*/
         }
         .dsk-quest-box {
             width: var(--quest-box-width);
