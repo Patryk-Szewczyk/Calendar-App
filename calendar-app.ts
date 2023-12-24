@@ -30,7 +30,8 @@ class Layout_DESKTOP implements Layout_DESKTOP {
             }
         }, false);
     }
-    public setContentCalendarBox_Width_AEL(): void {
+    // ZBYT MAŁA PRZESTRZEŃ ZAWARTOŚCI KALENDARZA DLA DESKTOP PRZY WYSUNIĘCIU PANELU
+    /*public setContentCalendarBox_Width_AEL(): void {
         let sidebar_LEFT: number = 250;
         let sidebar_LEFT_PRP: number = 0;
         ['load', 'resize'].forEach((ev) => {
@@ -57,7 +58,7 @@ class Layout_DESKTOP implements Layout_DESKTOP {
         console.log('window.innerWidth: ' + window.innerWidth + ' | questBox_WIDTH: ' + questBox_WIDTH + ' | sidebar_LEFT_PRP: ' + sidebar_LEFT_PRP);
         console.log('result: ' + result_WIDTH);
         //console.log('sidebar_LEFT: ' + sidebar_LEFT);
-    }
+    }*/
 };
 
 
@@ -83,10 +84,21 @@ class Layout implements Layout_IFC {
     setLayout_DESKTOP(): void {
         const layout_DESKTOP: Layout_DESKTOP = new Layout_DESKTOP();
         layout_DESKTOP.setMenuButton_AEL();
-        layout_DESKTOP.setContentCalendarBox_Width_AEL();
+        //layout_DESKTOP.setContentCalendarBox_Width_AEL();
     }
 };
 
+
+// WYKORZYSTAJ TO PRZY TO-DO-LIŚCIE W KALENDARZU
+let a;   // brak wartości
+//a = 10;   // przypisanie wartości
+if (a)   // jeżeli WARTOŚĆ tej zmiennej istnieje
+{
+    //alert('hej');
+}
+else {
+    //alert('baj baj');
+}
 
 
 // MEGA WAŻNE!
