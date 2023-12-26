@@ -1,5 +1,5 @@
 # Calendar-App
-Calendar App
+Calendar App - To-Do-List 2
 
 Calendar App is my first full object programming app in TypeScript.
 
