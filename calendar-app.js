@@ -1,3 +1,87 @@
+var Functions = /** @class */ (function () {
+    function Functions() {
+    }
+    Functions.prototype.setInitialGlobalVariables = function () {
+        this.counterYear = new Date().getFullYear();
+        this.counterMonth = new Date().getMonth();
+        this.counterDay = new Date().getDate();
+        this.getMonthDays(this.counterYear, this.counterMonth);
+        var month_AR = ['Styczeń ', 'Luty ', 'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
+        var qb_title_EL = document.querySelector('div.qb-title');
+        qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+    };
+    Functions.prototype.getFullData = function () {
+        var data = new Date();
+    };
+    Functions.prototype.navArrow_Next = function () {
+        var _this = this;
+        var navArrowNext = document.querySelector('div.ty-next-arrow');
+        var ty_value__EL = document.querySelector('div.ty-value');
+        ['click', 'touchend'].forEach(function (ev) {
+            navArrowNext.addEventListener(ev, function () {
+                _this.counterYear += 1;
+                ty_value__EL.textContent = String(_this.counterYear);
+                _this.getMonthDays(_this.counterYear, _this.counterMonth);
+            }, false);
+        });
+    };
+    Functions.prototype.navArrow_Prev = function () {
+        var _this = this;
+        var navArrowPrev = document.querySelector('div.ty-prev-arrow');
+        var ty_value__EL = document.querySelector('div.ty-value');
+        ['click', 'touchend'].forEach(function (ev) {
+            navArrowPrev.addEventListener(ev, function () {
+                if (_this.counterYear > new Date().getFullYear()) {
+                    _this.counterYear += -1;
+                    _this.getMonthDays(_this.counterYear, _this.counterMonth);
+                    ty_value__EL.textContent = String(_this.counterYear);
+                }
+            }, false);
+        });
+    };
+    Functions.prototype.buttonsMonth = function () {
+        var _this = this;
+        var buttonMonth_AR = document.querySelectorAll('div.mb-item');
+        console.log(buttonMonth_AR);
+        var cb_title_EL = document.querySelector('div.cb-title');
+        var month_AR = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+        var _loop_1 = function (i) {
+            ['click', 'touchend'].forEach(function (ev) {
+                buttonMonth_AR[i].addEventListener(ev, function (e) {
+                    var buttonMonth_ET = e.currentTarget;
+                    var buttonMonth_ID = Number(buttonMonth_ET.id.substring(8, 10));
+                    _this.counterMonth = buttonMonth_ID;
+                    cb_title_EL.textContent = month_AR[_this.counterMonth];
+                    _this.getMonthDays(_this.counterYear, _this.counterMonth);
+                }, false);
+            });
+        };
+        for (var i = 0; i < buttonMonth_AR.length; i++) {
+            _loop_1(i);
+        }
+    };
+    Functions.prototype.getMonthDays = function (year, month) {
+        // Pierwszy dzień kolejnego miesiąca
+        month += 1;
+        var firstDay_NewMonth_Date = new Date(year, month - 1, 1);
+        // Pierwszy dzień miesiąca
+        var firstDay_CurrentMonth_Date = new Date(year, month, 1);
+        // Odejmij pierwszy dzień kolejnego miesiąca od pierwszego dnia bieżącego miesiąca
+        // Otrzymasz czas w milisekundach między nimi
+        var betweenMonths_Time = firstDay_CurrentMonth_Date.getTime() - firstDay_NewMonth_Date.getTime();
+        // Przekształć czas z milisekund na dni, dzieląc przez liczbę milisekund w jednym dniu
+        var monthDays = betweenMonths_Time / (1000 * 60 * 60 * 24);
+        // Zaokrąglij wynik do najbliższej liczby całkowitej
+        Math.round(monthDays);
+        this.createMonthDays(monthDays);
+    };
+    Functions.prototype.createMonthDays = function (monthDays) {
+        var remove = document.getElementById('rem');
+        remove.remove();
+        //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+    };
+    return Functions;
+}());
 var Layout_DESKTOP = /** @class */ (function () {
     function Layout_DESKTOP() {
     }
@@ -30,36 +114,6 @@ var Layout_DESKTOP = /** @class */ (function () {
             }
         }, false);
     };
-    Layout_DESKTOP.prototype.setContentCalendarBox_Width_AEL = function () {
-        var _this = this;
-        var sidebar_LEFT = 250;
-        var sidebar_LEFT_PRP = 0;
-        ['load', 'resize'].forEach(function (ev) {
-            window.addEventListener(ev, function () {
-                sidebar_LEFT = document.querySelector('nav.dsk-nav-menu').getBoundingClientRect().left;
-                sidebar_LEFT_PRP = (sidebar_LEFT === -250) ? 0 : 250;
-                var time = '0.0s';
-                _this.setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time);
-            }, false);
-        });
-        var menuButton_EL = document.querySelector('svg.dsk-menu-arrow');
-        menuButton_EL.addEventListener('click', function () {
-            sidebar_LEFT = document.querySelector('nav.dsk-nav-menu').getBoundingClientRect().left;
-            sidebar_LEFT_PRP = (sidebar_LEFT === -250) ? 250 : 0;
-            var time = '0.5s';
-            _this.setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time);
-        }, false);
-    };
-    Layout_DESKTOP.prototype.setContentCalendarBox_Width_FNC = function (sidebar_LEFT_PRP, time) {
-        var calenContBox_EL = document.querySelector('div.dsk-calendar-box');
-        var questBox_WIDTH = document.querySelector('div.dsk-quest-box').getBoundingClientRect().width;
-        var result_WIDTH = (window.innerWidth - questBox_WIDTH - sidebar_LEFT_PRP);
-        calenContBox_EL.style.width = result_WIDTH + 'px';
-        calenContBox_EL.style.transitionDuration = time;
-        console.log('window.innerWidth: ' + window.innerWidth + ' | questBox_WIDTH: ' + questBox_WIDTH + ' | sidebar_LEFT_PRP: ' + sidebar_LEFT_PRP);
-        console.log('result: ' + result_WIDTH);
-        //console.log('sidebar_LEFT: ' + sidebar_LEFT);
-    };
     return Layout_DESKTOP;
 }());
 ;
@@ -81,11 +135,21 @@ var Layout = /** @class */ (function () {
     Layout.prototype.setLayout_DESKTOP = function () {
         var layout_DESKTOP = new Layout_DESKTOP();
         layout_DESKTOP.setMenuButton_AEL();
-        layout_DESKTOP.setContentCalendarBox_Width_AEL();
+        //layout_DESKTOP.setContentCalendarBox_Width_AEL();
     };
     return Layout;
 }());
 ;
+// WYKORZYSTAJ TO PRZY TO-DO-LIŚCIE W KALENDARZU
+var a; // brak wartości
+//a = 10;   // przypisanie wartości
+if (a) // jeżeli WARTOŚĆ tej zmiennej istnieje
+ {
+    //alert('hej');
+}
+else {
+    //alert('baj baj');
+}
 var App = /** @class */ (function () {
     function App() {
     }
@@ -93,6 +157,12 @@ var App = /** @class */ (function () {
         var layout = new Layout();
         layout.setAppBody_Height_AEL();
         layout.setLayout_DESKTOP();
+        var func = new Functions();
+        func.setInitialGlobalVariables();
+        func.getFullData();
+        func.navArrow_Next();
+        func.navArrow_Prev();
+        func.buttonsMonth();
     };
     return App;
 }());
