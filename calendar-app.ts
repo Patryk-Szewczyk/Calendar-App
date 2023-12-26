@@ -1,3 +1,104 @@
+type Functions_IFC = {
+    daysNum: number,
+    counterYear: number;
+    counterMonth: number;
+    counterDay: number;
+    setInitialGlobalVariables: Function;
+    getFullData: Function;
+    navArrow_Next: Function;
+    navArrow_Prev: Function;
+    getMonthDays: Function;
+    createMonthDays: Function;
+}
+class Functions implements Functions_IFC {
+    constructor() {}
+    daysNum: number;
+    counterYear: number;
+    counterMonth: number;
+    counterDay: number;
+    cb_title_EL: HTMLDivElement;
+    public setInitialGlobalVariables(): void {
+        this.counterYear = new Date().getFullYear();
+        this.counterMonth = new Date().getMonth();
+        this.counterDay = new Date().getDate();
+        this.getMonthDays(this.counterYear, this.counterMonth);
+        const month_AR: string[] = ['Styczeń ', 'Luty ',  'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
+        const qb_title_EL: HTMLDivElement = document.querySelector('div.qb-title');
+        qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+    }
+    public getFullData(): void {
+        const data: Date = new Date();
+    }
+    public navArrow_Next(): void {
+        const navArrowNext: HTMLDivElement = document.querySelector('div.ty-next-arrow');
+        const ty_value__EL: HTMLDivElement = document.querySelector('div.ty-value');
+        ['click', 'touchend'].forEach((ev) => {
+            navArrowNext.addEventListener(ev, () => {
+                this.counterYear += 1;
+                ty_value__EL.textContent = String(this.counterYear);
+                this.getMonthDays(this.counterYear, this.counterMonth);
+            }, false);
+        });
+    }
+    public navArrow_Prev(): void {
+        const navArrowPrev: HTMLDivElement = document.querySelector('div.ty-prev-arrow');
+        const ty_value__EL: HTMLDivElement = document.querySelector('div.ty-value');
+        ['click', 'touchend'].forEach((ev) => {
+            navArrowPrev.addEventListener(ev, () => {
+                if (this.counterYear > new Date().getFullYear())  {
+                    this.counterYear += -1;
+                    this.getMonthDays(this.counterYear, this.counterMonth);
+                    ty_value__EL.textContent = String(this.counterYear);
+                }
+            }, false);
+        });
+    }
+    public buttonsMonth(): void {
+        const buttonMonth_AR: any = document.querySelectorAll('div.mb-item');
+        console.log(buttonMonth_AR);
+        const cb_title_EL: HTMLDivElement = document.querySelector('div.cb-title');
+        const month_AR: string[] = ['Styczeń', 'Luty',  'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+        for (let i: number = 0; i < buttonMonth_AR.length; i++) {
+            ['click', 'touchend'].forEach((ev) => {
+                    buttonMonth_AR[i].addEventListener(ev, (e) => {
+                    const buttonMonth_ET: HTMLDivElement = e.currentTarget;
+                    const buttonMonth_ID: number = Number(buttonMonth_ET.id.substring(8, 10));
+                    this.counterMonth = buttonMonth_ID;
+                    cb_title_EL.textContent = month_AR[this.counterMonth];
+                    this.getMonthDays(this.counterYear, this.counterMonth);
+                }, false);
+            });
+        }
+    }
+    public getMonthDays(year: number, month: number):  void {
+        // Pierwszy dzień kolejnego miesiąca
+        month += 1;
+        const firstDay_NewMonth_Date = new Date(year, month - 1, 1);
+        // Pierwszy dzień miesiąca
+        const firstDay_CurrentMonth_Date: Date = new Date(year, month, 1);
+        // Odejmij pierwszy dzień kolejnego miesiąca od pierwszego dnia bieżącego miesiąca
+        // Otrzymasz czas w milisekundach między nimi
+        const betweenMonths_Time: number = firstDay_CurrentMonth_Date.getTime() - firstDay_NewMonth_Date.getTime();
+        // Przekształć czas z milisekund na dni, dzieląc przez liczbę milisekund w jednym dniu
+        let monthDays: number = betweenMonths_Time / (1000 * 60 * 60 * 24);
+        // Zaokrąglij wynik do najbliższej liczby całkowitej
+        Math.round(monthDays);
+        this.createMonthDays(monthDays);
+
+    }
+    public createMonthDays(monthDays): void {
+        const remove: any = document.getElementById('rem');
+        remove.remove();
+        //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+    }
+}
+
+
+
+
+
+
+
 type Layout_DESKTOP_IFC = {
     setMenuButton_AEL: Function,
     setContentCalendarBox_Width_AEL: Function,
@@ -50,8 +151,8 @@ class Layout_DESKTOP implements Layout_DESKTOP {
             this.setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time);
         }, false);
     }
-    private setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time):void {const calenContBox_EL: HTMLDivElement = document.querySelector('div.dsk-calendar-box');
-        let questBox_WIDTH: number = document.querySelector('div.dsk-quest-box').getBoundingClientRect().width;
+    private setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time):void {const calenContBox_EL: HTMLDivElement = document.querySelector('div.calendar-space');
+        let questBox_WIDTH: number = document.querySelector('div.quest-box').getBoundingClientRect().width;
         let result_WIDTH: number = (window.innerWidth - questBox_WIDTH - sidebar_LEFT_PRP);
         calenContBox_EL.style.width = result_WIDTH + 'px';
         calenContBox_EL.style.transitionDuration = time;
@@ -115,6 +216,12 @@ class App implements App_IFC {
         const layout: Layout = new Layout();
         layout.setAppBody_Height_AEL();
         layout.setLayout_DESKTOP();
+        const func = new Functions();
+        func.setInitialGlobalVariables();
+        func.getFullData();
+        func.navArrow_Next();
+        func.navArrow_Prev();
+        func.buttonsMonth();
     }
 };
 const app: App = new App();
