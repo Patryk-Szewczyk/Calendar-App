@@ -72,12 +72,26 @@ var Functions = /** @class */ (function () {
         // Przekształć czas z milisekund na dni, dzieląc przez liczbę milisekund w jednym dniu
         var monthDays = betweenMonths_Time / (1000 * 60 * 60 * 24);
         // Zaokrąglij wynik do najbliższej liczby całkowitej
+        monthDays = (monthDays > 31) ? 31 : monthDays; // Przy październiku wychodzi 32
         Math.round(monthDays);
         this.createMonthDays(monthDays);
     };
     Functions.prototype.createMonthDays = function (monthDays) {
-        var remove = document.getElementById('rem');
+        var container = document.querySelector('div.calendar-box');
+        var remove = document.querySelector('div.cb-days-number-group');
         remove.remove();
+        var cb_days_number_group_EL = document.createElement('div');
+        cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
+        container.appendChild(cb_days_number_group_EL);
+        for (var i = 0; i < monthDays; i++) {
+            var cb_days_number_item_box_EL = document.createElement('div');
+            var cb_days_number_item_content_EL = document.createElement('div');
+            cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
+            cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
+            cb_days_number_item_content_EL.textContent = String(i + 1);
+            cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
+            cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
+        }
         //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
     };
     return Functions;
