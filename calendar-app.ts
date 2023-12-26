@@ -82,13 +82,29 @@ class Functions implements Functions_IFC {
         // Przekształć czas z milisekund na dni, dzieląc przez liczbę milisekund w jednym dniu
         let monthDays: number = betweenMonths_Time / (1000 * 60 * 60 * 24);
         // Zaokrąglij wynik do najbliższej liczby całkowitej
+        monthDays = (monthDays > 31) ? 31 : monthDays;   // Przy październiku wychodzi 32
         Math.round(monthDays);
         this.createMonthDays(monthDays);
 
     }
     public createMonthDays(monthDays): void {
-        const remove: any = document.getElementById('rem');
+        const container: HTMLDivElement = document.querySelector('div.calendar-box');
+        const remove: HTMLDivElement = document.querySelector('div.cb-days-number-group');
         remove.remove();
+        const cb_days_number_group_EL: HTMLDivElement = document.createElement('div');
+        cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
+        container.appendChild(cb_days_number_group_EL);
+        
+        for (let i: number = 0; i < monthDays; i++)
+        {
+            const cb_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
+            const cb_days_number_item_content_EL: HTMLDivElement = document.createElement('div');
+            cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
+            cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
+            cb_days_number_item_content_EL.textContent = String(i + 1);
+            cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
+            cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
+        }
         //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
     }
 }
