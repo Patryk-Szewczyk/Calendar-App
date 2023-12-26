@@ -60,7 +60,8 @@ body {
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            background-color: rgb(70, 116, 200);
+            /*background-color: rgb(70, 116, 200);*/  /*OLD RIGHT: rgb(51, 97, 183)*/
+            background-image: linear-gradient(to right, rgb(47, 93, 177) 20%, rgb(70, 116, 200) 80%);
             z-index: 2;
         }
             .dsk-menu-button-box {
@@ -73,7 +74,7 @@ body {
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                background-color: inherit;
+                background-color: rgb(70, 116, 200);
                 border-radius: 0px 12px 12px 0px;
                 border: 0px solid red;  /*TEST*/
             }
@@ -176,7 +177,10 @@ body {
                         .bi-arrow-left-short:active, .bi-arrow-right-short:active {
                             background-color: hsl(219, 54%, 66%);
                         }
-            .dsk-month-box {
+                    .ty-value::selection {
+                        background-color: transparent;
+                    }
+            .month-box {
                 width: 100%;
                 height: 400px;  /*auto - ZRÓB!*/
                 display: flex;
@@ -185,7 +189,7 @@ body {
                 align-items: center;
                 border: 0px solid red;  /*TEST*/
             }
-                .dsk-mb-item {
+                .mb-item {
                     width: 100%;
                     height: 45%;
                     position: relative;
@@ -203,35 +207,116 @@ body {
                     font-size: 130%;
                     font-weight: 400;
                 }
-                .dsk-mb-item:hover {
+                .mb-item:hover {
                     cursor: pointer;
                     background-color: hsl(219, 54%, 59%);
                 }
-                .dsk-mb-item:active {
+                .mb-item:active {
                     background-color: hsl(219, 54%, 66%);
                 }
+                .mb-item::selection {
+                    background-color: transparent;
+                }
         :root {
-            --quest-box-width: 400px;
+            --quest-box-width: 450px;
         }
-        .dsk-calendar-box {
+        .calendar-space {
             /*width: TS;*/  /*NIE PRAKTYCZNE*/
             width: calc(100% - var(--quest-box-width));
             height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
             position: relative;
             background-color: var(--calendar-bgcolor);
             border: 0px solid crimson;  /*TEST*/
         }
-        .dsk-quest-box {
+            .calendar-box {
+                width: 90%;
+                height: 90%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                border: 0px solid red;  /*TEST*/
+            }
+                .cb-header {
+                    width: 100%;
+                    height: 110px;
+                    display: flex;
+                    flex-direction: column;
+                }
+                    .cb-title {
+                        width: 100%;
+                        height: 60px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        color: hsl(219, 54%, 48%);  /*OLD hsl(219, 54%, 53%)*/
+                        font-family: 'Outfit', sans-serif;
+                        font-size: 42px;
+                        font-weight: 500;
+                        text-shadow: 3px 3px 0px rgba(255,255,255,0.1);
+                        border: 0px solid green;  /*TEST*/
+                    }
+                    .cb-days-title-group {
+                        width: 100%;
+                        height: 50px;
+                        display: grid;
+                        grid-template-columns: repeat(7, auto);
+                        border: 0px solid blueviolet;  /*TEST*/
+                    }
+                        .cb-days-title-item {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            color: hsl(0, 0%, 20%);  /*OLD hsl(219, 54%, 53%)*/
+                            font-family: 'Outfit', sans-serif;
+                            font-size: 22px;
+                            font-weight: 500;
+                            letter-spacing: 1px;
+                        }
+                .cb-days-number-group {
+                    width: 100%;
+                    height: calc(100% - 110px);
+                    display: grid;
+                    grid-template-columns: repeat(7, auto);
+                    grid-template-rows: repeat(6, auto);
+                    border: 0px solid blue;  /*TEST*/
+                }
+                    .cb-days-number-item-box {
+                        position: relative;
+                        color: hsl(0, 0%, 20%);  /*OLD hsl(219, 54%, 53%)*/
+                        font-family: 'Outfit', sans-serif;
+                        font-size: 22px;
+                        font-weight: 500;
+                        overflow: hidden;
+                        border: 2px solid orangered;  /*TEST*/
+                    }
+                        .cb-days-number-item-content {
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            border: 2px solid yellowgreen;  /*TEST*/
+                        }
+        .quest-box {
             width: var(--quest-box-width);
             height: 100%;
             position: relative;
-            background-color: hsl(219, 54%, 53%);
+            background-image: linear-gradient(to right, rgb(70, 116, 200) 20%, rgb(47, 93, 177) 80%);
         }
             :root {
                 --dsk-qb-title-height: 120px;
-                --dsk-qb-map-height: 225px;
+                --dsk-qb-map-height: 190px;
             }
-            .dsk-qb-title {
+            .qb-title {
                 width: 100%;
                 height: var(--dsk-qb-title-height);
                 display: flex;
@@ -240,31 +325,35 @@ body {
                 align-items: center;
                 color: white;
                 font-family: 'Outfit', sans-serif;
-                font-size: 45px;
+                font-size: 30px;
                 font-weight: 400;
                 letter-spacing: 1px;
             }
-            .dsk-qb-map-box {
+            .qb-map-box {
                 width: 100%;
                 height: var(--dsk-qb-map-height);
+                position: relative;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                border: 3px solid red;
+                border: 3px solid red;  /*TEST*/
             }
-                .dsk-qb-map-calendar {
+                .qb-map-calendar {
                     width: var(--dsk-qb-map-height);
                     height: var(--dsk-qb-map-height);
-                    border: 3px solid pink;
+                    position: absolute;
+                    top: -20px;
+                    left: auto;
+                    border: 3px solid pink;  /*TEST*/
                 }
-            .dsk-qb-todolist-box {
+            .qb-todolist-box {
                 width: 100%;
                 height: calc(100% - var(--dsk-qb-title-height) - var(--dsk-qb-map-height));
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                border: 3px solid red;
+                border: 3px solid red;  /*TEST*/
             }
 }
