@@ -53,6 +53,7 @@ var Functions = /** @class */ (function () {
                     _this.counterMonth = buttonMonth_ID;
                     cb_title_EL.textContent = month_AR[_this.counterMonth];
                     _this.getMonthDays(_this.counterYear, _this.counterMonth);
+                    _this.createMonthDays(_this.monthDays, _this.counterYear, _this.counterMonth);
                 }, false);
             });
         };
@@ -73,26 +74,49 @@ var Functions = /** @class */ (function () {
         var monthDays = betweenMonths_Time / (1000 * 60 * 60 * 24);
         // Zaokrąglij wynik do najbliższej liczby całkowitej
         monthDays = (monthDays > 31) ? 31 : monthDays; // Przy październiku wychodzi 32
-        Math.round(monthDays);
-        this.createMonthDays(monthDays);
+        this.monthDays = Math.round(monthDays);
+        this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
     };
-    Functions.prototype.createMonthDays = function (monthDays) {
-        var container = document.querySelector('div.calendar-box');
+    Functions.prototype.createMonthDays = function (monthDays, year, month) {
+        var container = document.querySelector('div.cb-shadow');
         var remove = document.querySelector('div.cb-days-number-group');
         remove.remove();
         var cb_days_number_group_EL = document.createElement('div');
         cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
         container.appendChild(cb_days_number_group_EL);
-        for (var i = 0; i < monthDays; i++) {
+        // Spacjowa bloki: (pierwszy dzień miesiąca)
+        var init_IDX = -1;
+        var firstMonthDay_DATE = new Date(year, month, 1);
+        var firstMonthDay_STR = String(firstMonthDay_DATE).slice(0, 3);
+        init_IDX = (firstMonthDay_STR === 'Mon') ? 0 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Tue') ? 1 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Wed') ? 2 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Thu') ? 3 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Fri') ? 4 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Sat') ? 5 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Sun') ? 6 : init_IDX;
+        console.log(firstMonthDay_DATE);
+        for (var i = 0; i < monthDays + init_IDX; i++) {
             var cb_days_number_item_box_EL = document.createElement('div');
             var cb_days_number_item_content_EL = document.createElement('div');
             cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
             cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
-            cb_days_number_item_content_EL.textContent = String(i + 1);
+            if (i >= init_IDX) {
+                cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+            }
             cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
             cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
         }
         //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+    };
+    Functions.prototype.addQuest = function () {
+        //
+    };
+    Functions.prototype.deleteQuest = function () {
+        //
+    };
+    Functions.prototype.updateLocalStorage = function () {
+        //
     };
     return Functions;
 }());
