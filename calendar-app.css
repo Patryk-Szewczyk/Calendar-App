@@ -340,7 +340,7 @@ body {
                                 background-color: hsl(219, 54%, 80%);
                             }
                             .cb-days-number-item-box:nth-child(2n + 2) {
-                                background-color: hsl(219, 54%, 74%);
+                                background-color: hsl(219, 54%, 76%);   /*OLD: hsl(219, 54%, 74%)*/
                             }
         .quest-box {
             width: var(--quest-box-width);
@@ -349,7 +349,7 @@ body {
             background-image: linear-gradient(to right, rgb(70, 116, 200) 20%, rgb(47, 93, 177) 80%);
         }
             :root {
-                --dsk-qb-title-height: 120px;
+                --dsk-qb-title-height: 100px;
                 --dsk-qb-map-height: 190px;
             }
             .qb-title {
@@ -373,13 +373,13 @@ body {
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                border: 3px solid red;  /*TEST*/
+                border: 0px solid red;  /*TEST*/
             }
                 .qb-map-calendar {
                     width: var(--dsk-qb-map-height);
                     height: var(--dsk-qb-map-height);
                     position: absolute;
-                    top: -20px;
+                    top: -15px;
                     left: auto;
                     border: 3px solid pink;  /*TEST*/
                 }
@@ -387,9 +387,72 @@ body {
                 width: 100%;
                 height: calc(100% - var(--dsk-qb-title-height) - var(--dsk-qb-map-height));
                 display: flex;
-                flex-direction: row;
-                justify-content: center;
+                flex-direction: column;
+                justify-content: flex-start;
                 align-items: center;
-                border: 3px solid red;  /*TEST*/
+                border: 0px solid red;  /*TEST*/
             }
+                :root {
+                    --qb-todolist-title-height: 45px;
+                }
+                .qb-todolist-title {
+                    width: 100%;
+                    height: var(--qb-todolist-title-height);
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    border: 0px solid red;  /*TEST*/
+                }
+                    .qb-todolist-title-prp {
+                        width: auto;
+                        height: 100%;
+                        position: relative;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        color: white;
+                        font-family: 'Outfit', sans-serif;
+                        font-size: 22px;
+                        font-weight: 400;
+                        border: 0px solid red;  /*TEST*/
+                    }
+                    .qb-todolist-title-button {
+                        width: var(--qb-todolist-title-height);
+                        height: 100%;
+                        position: absolute;
+                        top: 0px;
+                        right: 30px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        color: white;
+                        font-family: 'Outfit', sans-serif;
+                        font-size: 30px;
+                        font-weight: 400;
+                        border: 0px solid red;  /*TEST*/
+                    }
+                    .bi-plus-square {
+                        width: 35px;
+                        height: 35px;
+                    }
+                    .bi-plus-square:hover {
+                        cursor: pointer;
+                        background-color: hsl(219, 54%, 53%);   /*OLD: hsl(219, 54%, 59%)*/
+                    }
+                    .bi-plus-square:active {
+                        background-color: hsl(219, 54%, 60%);   /*OLD: hsl(219, 54%, 66%)*/
+                    }
+                .qb-todolist-content {
+                    width: 100%;
+                    height: calc(100% - var(--qb-todolist-title-height));
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: flex-start;
+                    border: 0px solid yellow;  /*TEST*/
+                }
 }
