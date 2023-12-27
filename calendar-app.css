@@ -11,7 +11,7 @@ body {
 }
 
 :root {
-    --calendar-bgcolor: hsl(219, 54%, 77%);
+    --calendar-bgcolor: hsl(219, 54%, 82%);   /*OLD: hsl(219, 54%, 77%)*/
 }
 
 .app-body {
@@ -241,71 +241,107 @@ body {
                 align-items: flex-start;
                 border: 0px solid red;  /*TEST*/
             }
+                :root {
+                    --cb-title-height: 80px;
+                    --cb-days-title-group: 50px;
+                    --cb-header-height: var(--cb-title-height);
+                    --border-top-left: 12px;
+                    --border-top-right: 12px;
+                    --border-bottom-left: 12px;
+                    --border-bottom-right: 12px;
+                }
                 .cb-header {
                     width: 100%;
-                    height: 110px;
+                    height: var(--cb-title-height);
                     display: flex;
                     flex-direction: column;
+                    border: 0px solid green;  /*TEST*/
                 }
                     .cb-title {
                         width: 100%;
-                        height: 60px;
+                        height: var(--cb-title-height);
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
                         align-items: center;
-                        color: hsl(219, 54%, 48%);  /*OLD hsl(219, 54%, 53%)*/
+                        color: hsl(219, 54%, 50%);  /*OLD hsl(219, 54%, 53%)*/
                         font-family: 'Outfit', sans-serif;
                         font-size: 42px;
-                        font-weight: 500;
-                        text-shadow: 3px 3px 0px rgba(255,255,255,0.1);
+                        font-weight: 600;
+                        /*text-shadow: 3px 3px 0px rgba(255,255,255,0.1);*/
                         border: 0px solid green;  /*TEST*/
                     }
+                .cb-shadow {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    box-shadow: 3px 5px 6px 0px rgba(0,0,0,0.22), -3px 5px 6px 0px rgba(0,0,0,0.22);
+                    overflow: hidden;
+                    border-radius: var(--border-top-left) var(--border-top-right) var(--border-bottom-right) var(--border-bottom-left);
+                    border: 0px solid green;  /*TEST*/
+                }
                     .cb-days-title-group {
                         width: 100%;
-                        height: 50px;
+                        height: var(--cb-days-title-group);
                         display: grid;
                         grid-template-columns: repeat(7, auto);
-                        border: 0px solid blueviolet;  /*TEST*/
+                        /*background-color: hsl(219, 54%, 53%);*/
+                        background-image: linear-gradient(to bottom, hsl(219, 54%, 50%), hsl(219, 54%, 56%));
+                        border-radius: var(--border-top-left) var(--border-top-right) 0 0;
+                        border: 0px solid green;  /*TEST*/
                     }
                         .cb-days-title-item {
                             display: flex;
                             flex-direction: row;
                             justify-content: center;
                             align-items: center;
-                            color: hsl(0, 0%, 20%);  /*OLD hsl(219, 54%, 53%)*/
+                            color: white;
                             font-family: 'Outfit', sans-serif;
-                            font-size: 22px;
-                            font-weight: 500;
+                            font-size: 20px;   /*OLD: 22px*/
+                            font-weight: 400;
                             letter-spacing: 1px;
+                            background-color: transparent;
+                            border: 0px solid green;  /*TEST*/
                         }
-                .cb-days-number-group {
-                    width: 100%;
-                    height: calc(100% - 110px);
-                    display: grid;
-                    grid-template-columns: repeat(7, auto);
-                    grid-template-rows: repeat(6, auto);
-                    border: 0px solid blue;  /*TEST*/
-                }
-                    .cb-days-number-item-box {
-                        position: relative;
-                        color: hsl(0, 0%, 20%);  /*OLD hsl(219, 54%, 53%)*/
-                        font-family: 'Outfit', sans-serif;
-                        font-size: 22px;
-                        font-weight: 500;
-                        overflow: hidden;
-                        border: 2px solid orangered;  /*TEST*/
+                    .cb-days-number-group {
+                        width: 100%;
+                        height: calc(100%);
+                        display: grid;
+                        grid-template-columns: repeat(7, auto);
+                        grid-template-rows: repeat(6, auto);
+                        /*background-color: hsl(219, 54%, 66%);*/
+                        background-image: linear-gradient(to top, hsl(219, 54%, 50%), hsl(219, 54%, 56%) 7%, hsl(219, 54%, 56%) 100%);
+                        border-radius: 0 0 var(--border-bottom-right) var(--border-bottom-left);
+                        border: 0px solid blue;  /*TEST*/
                     }
-                        .cb-days-number-item-content {
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            display: flex;
-                            flex-direction: row;
-                            justify-content: center;
-                            align-items: center;
-                            border: 2px solid yellowgreen;  /*TEST*/
+                        .cb-days-number-item-box {
+                            position: relative;
+                            color: hsl(0, 0%, 12%);  /*OLD hsl(219, 54%, 53%)*/
+                            font-family: 'Outfit', sans-serif;
+                            font-size: 20px;   /*OLD: 22px*/
+                            font-weight: 500;
+                            overflow: hidden;
+                            border: 0px solid orangered;  /*TEST*/
                         }
+                            .cb-days-number-item-content {
+                                width: 100%;
+                                height: 100%;
+                                position: absolute;
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: center;
+                                align-items: center;
+                                border: 0px solid yellowgreen;  /*TEST*/
+                            }
+                            .cb-days-number-item-box:nth-child(2n + 1) {
+                                background-color: hsl(219, 54%, 80%);
+                            }
+                            .cb-days-number-item-box:nth-child(2n + 2) {
+                                background-color: hsl(219, 54%, 74%);
+                            }
         .quest-box {
             width: var(--quest-box-width);
             height: 100%;
