@@ -3,12 +3,16 @@ type Functions_IFC = {
     counterYear: number;
     counterMonth: number;
     counterDay: number;
+    monthDays: number;
     setInitialGlobalVariables: Function;
     getFullData: Function;
     navArrow_Next: Function;
     navArrow_Prev: Function;
     getMonthDays: Function;
-    createMonthDays: Function;
+    createMonthDays: Function;   // Zrób tutaj całą aktualizację kalendarza!
+    addQuest: Function;   // BRAK  // Dodawanie questa do tablicy JSON i aktywacja funkcji: createMonthDays()
+    deleteQuest: Function;   // BRAK  // Usiwanie questa do tablicy JSON i aktywacja funkcji: createMonthDays()
+    updateLocalStorage: Function;   // BRAK  // Aktualizowanie magazynu danych lokalnych przeglądarki
 }
 class Functions implements Functions_IFC {
     constructor() {}
@@ -16,6 +20,7 @@ class Functions implements Functions_IFC {
     counterYear: number;
     counterMonth: number;
     counterDay: number;
+    monthDays: number;
     cb_title_EL: HTMLDivElement;
     public setInitialGlobalVariables(): void {
         this.counterYear = new Date().getFullYear();
@@ -66,6 +71,7 @@ class Functions implements Functions_IFC {
                     this.counterMonth = buttonMonth_ID;
                     cb_title_EL.textContent = month_AR[this.counterMonth];
                     this.getMonthDays(this.counterYear, this.counterMonth);
+                    this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
                 }, false);
             });
         }
@@ -83,29 +89,51 @@ class Functions implements Functions_IFC {
         let monthDays: number = betweenMonths_Time / (1000 * 60 * 60 * 24);
         // Zaokrąglij wynik do najbliższej liczby całkowitej
         monthDays = (monthDays > 31) ? 31 : monthDays;   // Przy październiku wychodzi 32
-        Math.round(monthDays);
-        this.createMonthDays(monthDays);
+        this.monthDays = Math.round(monthDays);
+        this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
 
     }
-    public createMonthDays(monthDays): void {
-        const container: HTMLDivElement = document.querySelector('div.calendar-box');
+    public createMonthDays(monthDays: number, year: number, month: number): void {
+        const container: HTMLDivElement = document.querySelector('div.cb-shadow');
         const remove: HTMLDivElement = document.querySelector('div.cb-days-number-group');
         remove.remove();
         const cb_days_number_group_EL: HTMLDivElement = document.createElement('div');
         cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
         container.appendChild(cb_days_number_group_EL);
-        
-        for (let i: number = 0; i < monthDays; i++)
+        // Spacjowa bloki: (pierwszy dzień miesiąca)
+        let init_IDX = -1;
+        const firstMonthDay_DATE: Date = new Date(year, month, 1);
+        const firstMonthDay_STR: string = String(firstMonthDay_DATE).slice(0, 3);
+        init_IDX = (firstMonthDay_STR === 'Mon') ? 0 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Tue') ? 1 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Wed') ? 2 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Thu') ? 3 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Fri') ? 4 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Sat') ? 5 : init_IDX;
+        init_IDX = (firstMonthDay_STR === 'Sun') ? 6 : init_IDX;
+        console.log(firstMonthDay_DATE);
+        for (let i: number = 0; i < monthDays + init_IDX; i++)
         {
             const cb_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
             const cb_days_number_item_content_EL: HTMLDivElement = document.createElement('div');
             cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
             cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
-            cb_days_number_item_content_EL.textContent = String(i + 1);
+            if (i >= init_IDX) {
+                cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+            }
             cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
             cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
         }
         //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+    }
+    public addQuest(): void {
+        //
+    }
+    public deleteQuest(): void {
+        //
+    }
+    public updateLocalStorage(): void {
+        //
     }
 }
 
