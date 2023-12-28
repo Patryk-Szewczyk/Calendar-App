@@ -94,12 +94,13 @@ class Functions implements Functions_IFC {
 
     }
     public createMonthDays(monthDays: number, year: number, month: number): void {
-        const container: HTMLDivElement = document.querySelector('div.cb-shadow');
-        const remove: HTMLDivElement = document.querySelector('div.cb-days-number-group');
-        remove.remove();
-        const cb_days_number_group_EL: HTMLDivElement = document.createElement('div');
-        cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
-        container.appendChild(cb_days_number_group_EL);
+        // MAIN CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        const MAIN_container: HTMLDivElement = document.querySelector('div.cb-shadow');
+        const MAIN_remove: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+        MAIN_remove.remove();
+        const MAIN_cb_days_number_group_EL: HTMLDivElement = document.createElement('div');
+        MAIN_cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
+        MAIN_container.appendChild(MAIN_cb_days_number_group_EL);
         // Spacjowa bloki: (pierwszy dzień miesiąca)
         let init_IDX = -1;
         const firstMonthDay_DATE: Date = new Date(year, month, 1);
@@ -114,17 +115,18 @@ class Functions implements Functions_IFC {
         console.log(firstMonthDay_DATE);
         for (let i: number = 0; i < monthDays + init_IDX; i++)
         {
-            const cb_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
-            const cb_days_number_item_content_EL: HTMLDivElement = document.createElement('div');
-            cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
-            cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
+            const MAIN_cb_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
+            const MAIN_cb_days_number_item_content_EL: HTMLDivElement = document.createElement('div');
+            MAIN_cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
+            MAIN_cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
             if (i >= init_IDX) {
-                cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+                MAIN_cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
             }
-            cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
-            cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
+            MAIN_cb_days_number_group_EL.appendChild(MAIN_cb_days_number_item_box_EL);
+            MAIN_cb_days_number_item_box_EL.appendChild(MAIN_cb_days_number_item_content_EL);
         }
-        //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+        // MAP CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        //const MAP_container: HTMLDivElement = document.querySelector('div.');
     }
     public addQuest(): void {
         //
@@ -175,35 +177,6 @@ class Layout_DESKTOP implements Layout_DESKTOP {
             }
         }, false);
     }
-    // ZBYT MAŁA PRZESTRZEŃ ZAWARTOŚCI KALENDARZA DLA DESKTOP PRZY WYSUNIĘCIU PANELU
-    /*public setContentCalendarBox_Width_AEL(): void {
-        let sidebar_LEFT: number = 250;
-        let sidebar_LEFT_PRP: number = 0;
-        ['load', 'resize'].forEach((ev) => {
-            window.addEventListener(ev, () => {   
-                sidebar_LEFT = document.querySelector('nav.dsk-nav-menu').getBoundingClientRect().left;
-                sidebar_LEFT_PRP = (sidebar_LEFT === -250) ? 0 : 250;
-                let time: string = '0.0s';
-                this.setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time);
-            }, false);
-        });
-        const menuButton_EL: HTMLDivElement = document.querySelector('svg.dsk-menu-arrow');
-        menuButton_EL.addEventListener('click', () => {
-            sidebar_LEFT = document.querySelector('nav.dsk-nav-menu').getBoundingClientRect().left;
-            sidebar_LEFT_PRP = (sidebar_LEFT === -250) ? 250 : 0;
-            let time: string = '0.5s';
-            this.setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time);
-        }, false);
-    }
-    private setContentCalendarBox_Width_FNC(sidebar_LEFT_PRP, time):void {const calenContBox_EL: HTMLDivElement = document.querySelector('div.calendar-space');
-        let questBox_WIDTH: number = document.querySelector('div.quest-box').getBoundingClientRect().width;
-        let result_WIDTH: number = (window.innerWidth - questBox_WIDTH - sidebar_LEFT_PRP);
-        calenContBox_EL.style.width = result_WIDTH + 'px';
-        calenContBox_EL.style.transitionDuration = time;
-        console.log('window.innerWidth: ' + window.innerWidth + ' | questBox_WIDTH: ' + questBox_WIDTH + ' | sidebar_LEFT_PRP: ' + sidebar_LEFT_PRP);
-        console.log('result: ' + result_WIDTH);
-        //console.log('sidebar_LEFT: ' + sidebar_LEFT);
-    }*/
 };
 
 
@@ -233,17 +206,6 @@ class Layout implements Layout_IFC {
     }
 };
 
-
-// WYKORZYSTAJ TO PRZY TO-DO-LIŚCIE W KALENDARZU
-let a;   // brak wartości
-//a = 10;   // przypisanie wartości
-if (a)   // jeżeli WARTOŚĆ tej zmiennej istnieje
-{
-    //alert('hej');
-}
-else {
-    //alert('baj baj');
-}
 
 
 // MEGA WAŻNE!
