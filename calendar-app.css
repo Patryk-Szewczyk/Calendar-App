@@ -253,7 +253,7 @@ body {
                     --border-top-right: 12px;
                     --border-bottom-left: 12px;
                     --border-bottom-right: 12px;
-                    --calendar-border-color: #e5e5e5;
+                    --calendar-border-color: #e3e3e3;  /*OLD: #e5e5e5*/
                 }
                 .cb-header {
                     width: 100%;
@@ -294,7 +294,7 @@ body {
                     flex-direction: column;
                     justify-content: flex-start;
                     align-items: flex-start;
-                    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.10), 3px 5px 6px 0px rgba(0,0,0,0.10), -3px 5px 6px 0px rgba(0,0,0,0.10);
+                    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.10), 2px 4px 6px 0px rgba(0,0,0,0.10), -2px 4px 6px 0px rgba(0,0,0,0.10);
                     overflow: hidden;
                     border-radius: var(--border-top-left) var(--border-top-right) var(--border-bottom-right) var(--border-bottom-left);
                     border: 0px solid green;  /*TEST*/
