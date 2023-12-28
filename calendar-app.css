@@ -11,7 +11,8 @@ body {
 }
 
 :root {
-    --calendar-bgcolor: hsl(219, 54%, 82%);   /*OLD: hsl(219, 54%, 77%)*/
+    --calendar-bgcolor: hsl(219, 54%, 96%);   /*OLD: hsl(219, 54%, 87%)*/
+    --dark-font: hsl(0, 0%, 12%);
 }
 
 .app-body {
@@ -60,7 +61,6 @@ body {
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            /*background-color: rgb(70, 116, 200);*/  /*OLD RIGHT: rgb(51, 97, 183)*/
             background-image: linear-gradient(to right, rgb(47, 93, 177) 20%, rgb(70, 116, 200) 80%);
             z-index: 2;
         }
@@ -180,6 +180,9 @@ body {
                     .ty-value::selection {
                         background-color: transparent;
                     }
+                    .ty-value:hover {
+                        cursor: default;
+                    }
             .month-box {
                 width: 100%;
                 height: 400px;  /*auto - ZRÓB!*/
@@ -216,6 +219,7 @@ body {
                 }
                 .mb-item::selection {
                     background-color: transparent;
+                    color: inherit;
                 }
         :root {
             --quest-box-width: 450px;
@@ -242,8 +246,8 @@ body {
                 border: 0px solid red;  /*TEST*/
             }
                 :root {
-                    --cb-title-height: 80px;
-                    --cb-days-title-group: 50px;
+                    --cb-title-height: 60px;
+                    --cb-days-title-group: 65px;
                     --cb-header-height: var(--cb-title-height);
                     --border-top-left: 12px;
                     --border-top-right: 12px;
@@ -253,23 +257,34 @@ body {
                 .cb-header {
                     width: 100%;
                     height: var(--cb-title-height);
+                    position: relative;
                     display: flex;
                     flex-direction: column;
+                    justify-content: flex-start;
                     border: 0px solid green;  /*TEST*/
                 }
                     .cb-title {
                         width: 100%;
                         height: var(--cb-title-height);
+                        position: relative;
+                        left: auto;
+                        top: -10px;
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        align-items: center;
-                        color: hsl(219, 54%, 50%);  /*OLD hsl(219, 54%, 53%)*/
+                        align-items: flex-start;
+                        color: #333;  /*OLD hsl(219, 54%, 50%)*/
                         font-family: 'Outfit', sans-serif;
-                        font-size: 42px;
+                        font-size: 45px;  /*OLD: 42px*/
                         font-weight: 600;
-                        /*text-shadow: 3px 3px 0px rgba(255,255,255,0.1);*/
                         border: 0px solid green;  /*TEST*/
+                    }
+                    .cb-title::selection {
+                        background-color: transparent;
+                        color: inherit;
+                    }
+                    .cb-title:hover {
+                        cursor: default;
                     }
                 .cb-shadow {
                     width: 100%;
@@ -278,7 +293,7 @@ body {
                     flex-direction: column;
                     justify-content: flex-start;
                     align-items: flex-start;
-                    box-shadow: 3px 5px 6px 0px rgba(0,0,0,0.22), -3px 5px 6px 0px rgba(0,0,0,0.22);
+                    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.10), 3px 5px 6px 0px rgba(0,0,0,0.10), -3px 5px 6px 0px rgba(0,0,0,0.10);
                     overflow: hidden;
                     border-radius: var(--border-top-left) var(--border-top-right) var(--border-bottom-right) var(--border-bottom-left);
                     border: 0px solid green;  /*TEST*/
@@ -288,8 +303,7 @@ body {
                         height: var(--cb-days-title-group);
                         display: grid;
                         grid-template-columns: repeat(7, auto);
-                        /*background-color: hsl(219, 54%, 53%);*/
-                        background-image: linear-gradient(to bottom, hsl(219, 54%, 50%), hsl(219, 54%, 56%));
+                        background-color: hsl(0, 0%, 100%);
                         border-radius: var(--border-top-left) var(--border-top-right) 0 0;
                         border: 0px solid green;  /*TEST*/
                     }
@@ -298,13 +312,20 @@ body {
                             flex-direction: row;
                             justify-content: center;
                             align-items: center;
-                            color: white;
+                            color: var(--dark-font);
                             font-family: 'Outfit', sans-serif;
                             font-size: 20px;   /*OLD: 22px*/
-                            font-weight: 400;
+                            font-weight: 500;
                             letter-spacing: 1px;
                             background-color: transparent;
                             border: 0px solid green;  /*TEST*/
+                        }
+                        .cb-days-title-item::selection {
+                            background-color: transparent;
+                            color: inherit;
+                        }
+                        .cb-days-title-item:hover {
+                            cursor: default;
                         }
                     .cb-days-number-group {
                         width: 100%;
@@ -312,35 +333,44 @@ body {
                         display: grid;
                         grid-template-columns: repeat(7, auto);
                         grid-template-rows: repeat(6, auto);
-                        /*background-color: hsl(219, 54%, 66%);*/
-                        background-image: linear-gradient(to top, hsl(219, 54%, 50%), hsl(219, 54%, 56%) 7%, hsl(219, 54%, 56%) 100%);
+                        background-color: hsl(0, 0%, 100%);
                         border-radius: 0 0 var(--border-bottom-right) var(--border-bottom-left);
-                        border: 0px solid blue;  /*TEST*/
+                        border-bottom: 0px solid blue;  /*TEST*/
                     }
                         .cb-days-number-item-box {
                             position: relative;
-                            color: hsl(0, 0%, 12%);  /*OLD hsl(219, 54%, 53%)*/
-                            font-family: 'Outfit', sans-serif;
-                            font-size: 20px;   /*OLD: 22px*/
-                            font-weight: 500;
+                            background-color: hsl(0, 0%, 100%);
                             overflow: hidden;
-                            border: 0px solid orangered;  /*TEST*/
+                            border-bottom: 2px solid #e5e5e5;
+                            border-right: 2px solid #e5e5e5;
+                        }
+                        .cb-days-number-item-box:nth-child(-n+7) {
+                            border-top: 2px solid #e5e5e5;
+                        }
+                        .cb-days-number-item-box:nth-child(7n + 1) {
+                            border-left: 2px solid #e5e5e5;
                         }
                             .cb-days-number-item-content {
                                 width: 100%;
                                 height: 100%;
+                                padding: 8px;
                                 position: absolute;
                                 display: flex;
                                 flex-direction: row;
                                 justify-content: center;
-                                align-items: center;
+                                align-items: flex-start;
+                                color: var(--dark-font);  /*OLD hsl(219, 54%, 53%)*/
+                                font-family: 'Outfit', sans-serif;
+                                font-size: 18px;  /*OLD: 20px*/
+                                font-weight: 500;
                                 border: 0px solid yellowgreen;  /*TEST*/
                             }
-                            .cb-days-number-item-box:nth-child(2n + 1) {
-                                background-color: hsl(219, 54%, 80%);
+                            .cb-days-number-item-content::selection {
+                                background-color: transparent;
+                                color: inherit;
                             }
-                            .cb-days-number-item-box:nth-child(2n + 2) {
-                                background-color: hsl(219, 54%, 76%);   /*OLD: hsl(219, 54%, 74%)*/
+                            .cb-days-number-item-content:hover {
+                                cursor: default;
                             }
         .quest-box {
             width: var(--quest-box-width);
@@ -349,12 +379,15 @@ body {
             background-image: linear-gradient(to right, rgb(70, 116, 200) 20%, rgb(47, 93, 177) 80%);
         }
             :root {
-                --dsk-qb-title-height: 100px;
-                --dsk-qb-map-height: 190px;
+                --qb-title-height: 100px;
+                --qb-map-width: 225px;
+                --qb-map-height: 190px;
+                --qb-mc-days-title-group-height: 30px;
+                --qb-mc-days-number-group-height: calc(100% - var(--qb-mc-days-title-group-height));
             }
             .qb-title {
                 width: 100%;
-                height: var(--dsk-qb-title-height);
+                height: var(--qb-title-height);
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
@@ -365,9 +398,16 @@ body {
                 font-weight: 400;
                 letter-spacing: 1px;
             }
+            .qb-title::selection {
+                background-color: transparent;
+                color: inherit;
+            }
+            .qb-title:hover {
+                cursor: default;
+            }
             .qb-map-box {
                 width: 100%;
-                height: var(--dsk-qb-map-height);
+                height: var(--qb-map-height);
                 position: relative;
                 display: flex;
                 flex-direction: row;
@@ -376,16 +416,53 @@ body {
                 border: 0px solid red;  /*TEST*/
             }
                 .qb-map-calendar {
-                    width: var(--dsk-qb-map-height);
-                    height: var(--dsk-qb-map-height);
+                    width: var(--qb-map-width);
+                    height: var(--qb-map-height);
                     position: absolute;
                     top: -15px;
                     left: auto;
-                    border: 3px solid pink;  /*TEST*/
+                    overflow: hidden;
+                    border-radius: 4px;
+                    border: 0px solid pink;  /*TEST*/
                 }
+                    .qb-mc-days-title-group {
+                        width: 100%;
+                        height: var(--qb-mc-days-title-group-height);
+                        display: grid;
+                        grid-template-columns: repeat(7, auto);
+                        background-color: var(--calendar-bgcolor);
+                        border: 0px solid red;  /*TEST*/
+                    }
+                        .qb-mc-days-title-item {
+                            background-color: transparent;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            color: var(--dark-font);
+                            font-family: 'Outfit', sans-serif;
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+                        .qb-mc-days-title-item::selection {
+                            background-color: transparent;
+                            color: inherit;
+                        }
+                        .qb-mc-days-title-item:hover {
+                            cursor: default;
+                        }
+                    .qb-mc-days-number-group {
+                        width: 100%;
+                        height: var(--qb-mc-days-number-group-height);
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        border: 2px solid red;  /*TEST*/
+                    }
             .qb-todolist-box {
                 width: 100%;
-                height: calc(100% - var(--dsk-qb-title-height) - var(--dsk-qb-map-height));
+                height: calc(100% - var(--qb-title-height) - var(--qb-map-height));
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
@@ -419,6 +496,13 @@ body {
                         font-weight: 400;
                         border: 0px solid red;  /*TEST*/
                     }
+                    .qb-todolist-title-prp::selection {
+                        background-color: transparent;
+                        color: inherit;
+                    }
+                    .qb-todolist-title-prp:hover {
+                        cursor: default;
+                    }
                     .qb-todolist-title-button {
                         width: var(--qb-todolist-title-height);
                         height: 100%;
@@ -441,10 +525,10 @@ body {
                     }
                     .bi-plus-square:hover {
                         cursor: pointer;
-                        background-color: hsl(219, 54%, 53%);   /*OLD: hsl(219, 54%, 59%)*/
+                        background-color: hsl(219, 54%, 53%);  /*OLD: hsl(219, 54%, 59%)*/
                     }
                     .bi-plus-square:active {
-                        background-color: hsl(219, 54%, 60%);   /*OLD: hsl(219, 54%, 66%)*/
+                        background-color: hsl(219, 54%, 60%);  /*OLD: hsl(219, 54%, 66%)*/
                     }
                 .qb-todolist-content {
                     width: 100%;
