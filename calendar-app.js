@@ -78,12 +78,13 @@ var Functions = /** @class */ (function () {
         this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
     };
     Functions.prototype.createMonthDays = function (monthDays, year, month) {
-        var container = document.querySelector('div.cb-shadow');
-        var remove = document.querySelector('div.cb-days-number-group');
-        remove.remove();
-        var cb_days_number_group_EL = document.createElement('div');
-        cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
-        container.appendChild(cb_days_number_group_EL);
+        // MAIN CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        var MAIN_container = document.querySelector('div.cb-shadow');
+        var MAIN_remove = document.querySelector('div.cb-days-number-group');
+        MAIN_remove.remove();
+        var MAIN_cb_days_number_group_EL = document.createElement('div');
+        MAIN_cb_days_number_group_EL.setAttribute('class', 'cb-days-number-group');
+        MAIN_container.appendChild(MAIN_cb_days_number_group_EL);
         // Spacjowa bloki: (pierwszy dzień miesiąca)
         var init_IDX = -1;
         var firstMonthDay_DATE = new Date(year, month, 1);
@@ -97,17 +98,18 @@ var Functions = /** @class */ (function () {
         init_IDX = (firstMonthDay_STR === 'Sun') ? 6 : init_IDX;
         console.log(firstMonthDay_DATE);
         for (var i = 0; i < monthDays + init_IDX; i++) {
-            var cb_days_number_item_box_EL = document.createElement('div');
-            var cb_days_number_item_content_EL = document.createElement('div');
-            cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
-            cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
+            var MAIN_cb_days_number_item_box_EL = document.createElement('div');
+            var MAIN_cb_days_number_item_content_EL = document.createElement('div');
+            MAIN_cb_days_number_item_box_EL.setAttribute('class', 'cb-days-number-item-box');
+            MAIN_cb_days_number_item_content_EL.setAttribute('class', 'cb-days-number-item-content');
             if (i >= init_IDX) {
-                cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+                MAIN_cb_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
             }
-            cb_days_number_group_EL.appendChild(cb_days_number_item_box_EL);
-            cb_days_number_item_box_EL.appendChild(cb_days_number_item_content_EL);
+            MAIN_cb_days_number_group_EL.appendChild(MAIN_cb_days_number_item_box_EL);
+            MAIN_cb_days_number_item_box_EL.appendChild(MAIN_cb_days_number_item_content_EL);
         }
-        //const cb_days_number_group: HTMLDivElement = document.querySelector('div.cb-days-number-group');
+        // MAP CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        //const MAP_container: HTMLDivElement = document.querySelector('div.');
     };
     Functions.prototype.addQuest = function () {
         //
@@ -178,16 +180,6 @@ var Layout = /** @class */ (function () {
     return Layout;
 }());
 ;
-// WYKORZYSTAJ TO PRZY TO-DO-LIŚCIE W KALENDARZU
-var a; // brak wartości
-//a = 10;   // przypisanie wartości
-if (a) // jeżeli WARTOŚĆ tej zmiennej istnieje
- {
-    //alert('hej');
-}
-else {
-    //alert('baj baj');
-}
 var App = /** @class */ (function () {
     function App() {
     }
