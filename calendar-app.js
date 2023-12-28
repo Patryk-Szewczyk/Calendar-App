@@ -2,6 +2,7 @@ var Functions = /** @class */ (function () {
     function Functions() {
     }
     Functions.prototype.setInitialGlobalVariables = function () {
+        var _this = this;
         this.counterYear = new Date().getFullYear();
         this.counterMonth = new Date().getMonth();
         this.counterDay = new Date().getDate();
@@ -9,6 +10,36 @@ var Functions = /** @class */ (function () {
         var month_AR = ['Styczeń ', 'Luty ', 'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
         var qb_title_EL = document.querySelector('div.qb-title');
         qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+        this.choosedDate = { year: new Date().getFullYear(), month: new Date().getMonth() };
+        this.currentPosition = { year: new Date().getFullYear(), month: new Date().getMonth() };
+        console.log(this.choosedDate.year + " | " + this.choosedDate.month);
+        // Wyróżnienie aktualnego dnia:
+        ['click', 'touchend', 'load'].forEach(function (ev) {
+            window.addEventListener(ev, function () {
+                // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
+                if (_this.currentPosition.year === _this.choosedDate.year && _this.currentPosition.month === _this.choosedDate.month) {
+                    var num = '';
+                    var aval_AR = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',']; // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
+                    // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
+                    var val = qb_title_EL.textContent;
+                    for (var i = 0; i < val.length; i++) {
+                        for (var j = 0; j < aval_AR.length; j++) {
+                            if (val.charAt(i) === aval_AR[j] && num.length < 2) {
+                                num += val.charAt(i);
+                            }
+                        }
+                    }
+                    if (num.charAt(num.length - 1) === ',') { // Pozbywanie się przecinka
+                        num = num.slice(0, -1);
+                    }
+                    var cb_days_number_group = document.querySelectorAll('div.cb-days-number-item-content');
+                    var currentDay = cb_days_number_group[Number(num) - 1 + _this.init_IDX];
+                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
+                    currentDay.style.border = "3px solid #bbb";
+                    console.log(_this.choosedDate.year + " | " + _this.choosedDate.month);
+                }
+            }, false);
+        });
     };
     Functions.prototype.getFullData = function () {
         var data = new Date();
@@ -20,6 +51,7 @@ var Functions = /** @class */ (function () {
         ['click', 'touchend'].forEach(function (ev) {
             navArrowNext.addEventListener(ev, function () {
                 _this.counterYear += 1;
+                _this.currentPosition.year = _this.counterYear; // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                 ty_value__EL.textContent = String(_this.counterYear);
                 _this.getMonthDays(_this.counterYear, _this.counterMonth);
             }, false);
@@ -33,6 +65,7 @@ var Functions = /** @class */ (function () {
             navArrowPrev.addEventListener(ev, function () {
                 if (_this.counterYear > new Date().getFullYear()) {
                     _this.counterYear += -1;
+                    _this.currentPosition.year = _this.counterYear; // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                     _this.getMonthDays(_this.counterYear, _this.counterMonth);
                     ty_value__EL.textContent = String(_this.counterYear);
                 }
@@ -50,6 +83,7 @@ var Functions = /** @class */ (function () {
                 buttonMonth_AR[i].addEventListener(ev, function (e) {
                     var buttonMonth_ET = e.currentTarget;
                     var buttonMonth_ID = Number(buttonMonth_ET.id.substring(8, 10));
+                    _this.currentPosition.month = buttonMonth_ID; // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                     _this.counterMonth = buttonMonth_ID;
                     cb_title_EL.textContent = month_AR[_this.counterMonth];
                     _this.getMonthDays(_this.counterYear, _this.counterMonth);
@@ -96,7 +130,7 @@ var Functions = /** @class */ (function () {
         init_IDX = (firstMonthDay_STR === 'Fri') ? 4 : init_IDX;
         init_IDX = (firstMonthDay_STR === 'Sat') ? 5 : init_IDX;
         init_IDX = (firstMonthDay_STR === 'Sun') ? 6 : init_IDX;
-        console.log(firstMonthDay_DATE);
+        this.init_IDX = init_IDX;
         for (var i = 0; i < monthDays + init_IDX; i++) {
             var MAIN_cb_days_number_item_box_EL = document.createElement('div');
             var MAIN_cb_days_number_item_content_EL = document.createElement('div');
