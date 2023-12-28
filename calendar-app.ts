@@ -4,6 +4,9 @@ type Functions_IFC = {
     counterMonth: number;
     counterDay: number;
     monthDays: number;
+    init_IDX: number;
+    choosedDate: any;
+    currentPosition: any;
     setInitialGlobalVariables: Function;
     getFullData: Function;
     navArrow_Next: Function;
@@ -21,6 +24,9 @@ class Functions implements Functions_IFC {
     counterMonth: number;
     counterDay: number;
     monthDays: number;
+    init_IDX: number;
+    choosedDate: any;
+    currentPosition: any;
     cb_title_EL: HTMLDivElement;
     public setInitialGlobalVariables(): void {
         this.counterYear = new Date().getFullYear();
@@ -30,6 +36,37 @@ class Functions implements Functions_IFC {
         const month_AR: string[] = ['Styczeń ', 'Luty ',  'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
         const qb_title_EL: HTMLDivElement = document.querySelector('div.qb-title');
         qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+        this.choosedDate = {year: new Date().getFullYear(), month: new Date().getMonth()};
+        this.currentPosition = {year: new Date().getFullYear(), month: new Date().getMonth()}
+        console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
+        // Wyróżnienie aktualnego dnia:
+        ['click', 'touchend', 'load'].forEach((ev) => {
+            window.addEventListener(ev, () => {
+                // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
+                if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
+                    let num: string = '';
+                    let aval_AR: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ','];   // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
+                    // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
+                    let val: string = qb_title_EL.textContent;
+                    for (let i: number = 0; i < val.length; i++) {
+                        for (let j: number = 0; j < aval_AR.length; j++) {
+                            if (val.charAt(i) === aval_AR[j] && num.length < 2)
+                            {
+                                num += val.charAt(i);
+                            }
+                        }
+                    }
+                    if (num.charAt(num.length - 1) === ',') {   // Pozbywanie się przecinka
+                        num = num.slice(0, -1);
+                    }
+                    const cb_days_number_group: any = document.querySelectorAll('div.cb-days-number-item-content');
+                    const currentDay: HTMLDivElement = cb_days_number_group[Number(num) - 1 + this.init_IDX];
+                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
+                    currentDay.style.border = "3px solid #bbb";
+                    console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
+                }
+            }, false);
+        });
     }
     public getFullData(): void {
         const data: Date = new Date();
@@ -40,6 +77,7 @@ class Functions implements Functions_IFC {
         ['click', 'touchend'].forEach((ev) => {
             navArrowNext.addEventListener(ev, () => {
                 this.counterYear += 1;
+                this.currentPosition.year = this.counterYear;   // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                 ty_value__EL.textContent = String(this.counterYear);
                 this.getMonthDays(this.counterYear, this.counterMonth);
             }, false);
@@ -52,6 +90,7 @@ class Functions implements Functions_IFC {
             navArrowPrev.addEventListener(ev, () => {
                 if (this.counterYear > new Date().getFullYear())  {
                     this.counterYear += -1;
+                    this.currentPosition.year = this.counterYear;   // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                     this.getMonthDays(this.counterYear, this.counterMonth);
                     ty_value__EL.textContent = String(this.counterYear);
                 }
@@ -68,6 +107,7 @@ class Functions implements Functions_IFC {
                     buttonMonth_AR[i].addEventListener(ev, (e) => {
                     const buttonMonth_ET: HTMLDivElement = e.currentTarget;
                     const buttonMonth_ID: number = Number(buttonMonth_ET.id.substring(8, 10));
+                    this.currentPosition.month = buttonMonth_ID;   // Jedna z reguł potrzebna do podkreślenia aktualnego dnia w kalendarzach.
                     this.counterMonth = buttonMonth_ID;
                     cb_title_EL.textContent = month_AR[this.counterMonth];
                     this.getMonthDays(this.counterYear, this.counterMonth);
@@ -112,7 +152,7 @@ class Functions implements Functions_IFC {
         init_IDX = (firstMonthDay_STR === 'Fri') ? 4 : init_IDX;
         init_IDX = (firstMonthDay_STR === 'Sat') ? 5 : init_IDX;
         init_IDX = (firstMonthDay_STR === 'Sun') ? 6 : init_IDX;
-        console.log(firstMonthDay_DATE);
+        this.init_IDX = init_IDX;
         for (let i: number = 0; i < monthDays + init_IDX; i++)
         {
             const MAIN_cb_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
