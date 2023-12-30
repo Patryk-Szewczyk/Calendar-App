@@ -8,41 +8,55 @@ var Functions = /** @class */ (function () {
         this.counterDay = new Date().getDate();
         this.getMonthDays(this.counterYear, this.counterMonth);
         var month_AR = ['Styczeń ', 'Luty ', 'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
-        var qb_title_EL = document.querySelector('div.qb-title');
-        qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+        this.qb_title_EL = document.querySelector('div.qb-title');
+        this.qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
         this.choosedDate = { year: new Date().getFullYear(), month: new Date().getMonth() };
         this.currentPosition = { year: new Date().getFullYear(), month: new Date().getMonth() };
         console.log(this.choosedDate.year + " | " + this.choosedDate.month);
         // Wyróżnienie aktualnego dnia:
-        ['click', 'touchend', 'load'].forEach(function (ev) {
+        ['load'].forEach(function (ev) {
             window.addEventListener(ev, function () {
-                // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
-                if (_this.currentPosition.year === _this.choosedDate.year && _this.currentPosition.month === _this.choosedDate.month) {
-                    var num = '';
-                    var aval_AR = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',']; // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
-                    // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
-                    var val = qb_title_EL.textContent;
-                    for (var i = 0; i < val.length; i++) {
-                        for (var j = 0; j < aval_AR.length; j++) {
-                            if (val.charAt(i) === aval_AR[j] && num.length < 2) {
-                                num += val.charAt(i);
-                            }
-                        }
-                    }
-                    if (num.charAt(num.length - 1) === ',') { // Pozbywanie się przecinka
-                        num = num.slice(0, -1);
-                    }
-                    var cb_days_number_group = document.querySelectorAll('div.cb-days-number-item-content');
-                    var currentDay = cb_days_number_group[Number(num) - 1 + _this.init_IDX];
-                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
-                    currentDay.style.border = "3px solid #bbb";
-                    console.log(_this.choosedDate.year + " | " + _this.choosedDate.month);
-                }
+                _this.setChoosedDay();
             }, false);
         });
     };
-    Functions.prototype.getFullData = function () {
-        var data = new Date();
+    Functions.prototype.setChoosedDay = function (day) {
+        // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
+        if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
+            var num = '';
+            var aval_AR = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',']; // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
+            // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
+            var val = this.qb_title_EL.textContent;
+            for (var i = 0; i < val.length; i++) {
+                for (var j = 0; j < aval_AR.length; j++) {
+                    if (val.charAt(i) === aval_AR[j] && num.length < 2) {
+                        num += val.charAt(i);
+                    }
+                }
+            }
+            if (num.charAt(num.length - 1) === ',') { // Pozbywanie się przecinka
+                num = num.slice(0, -1);
+            }
+            num = (day !== undefined) ? day : num; // Jeśli wartość zmiennej "day" istnieje
+            // MAIN CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            var MAIN_cb_days_number_item_box_EL = document.querySelectorAll('div.cb-days-number-item-box');
+            var MAIN_cb_days_number_item_content_EL = document.querySelectorAll('div.cb-days-number-item-content');
+            var MAP_qb_mc_days_number_item_box_EL = document.querySelectorAll('div.qb-mc-days-number-item-box');
+            var MAP_qb_mc_days_number_item_content_EL = document.querySelectorAll('div.qb-mc-days-number-item-content');
+            for (var i = 0; i < this.monthDays + this.init_IDX; i++) {
+                if (i === Number(num) - 1 + this.init_IDX) {
+                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
+                    MAIN_cb_days_number_item_content_EL[i].style.border = "2.5px solid #b9b9b9";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "2px solid #a9a9a9";
+                }
+                else if (i !== Number(num) - 1 + this.init_IDX) {
+                    MAIN_cb_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
+                }
+            }
+            console.log(this.choosedDate.year + " | " + this.choosedDate.month);
+            console.log(this.currentPosition.year + " | " + this.currentPosition.month);
+        }
     };
     Functions.prototype.navArrow_Next = function () {
         var _this = this;
@@ -112,6 +126,7 @@ var Functions = /** @class */ (function () {
         this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
     };
     Functions.prototype.createMonthDays = function (monthDays, year, month) {
+        var _this = this;
         // MAIN CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         var MAIN_container = document.querySelector('div.cb-shadow');
         var MAIN_remove = document.querySelector('div.cb-days-number-group');
@@ -143,7 +158,34 @@ var Functions = /** @class */ (function () {
             MAIN_cb_days_number_item_box_EL.appendChild(MAIN_cb_days_number_item_content_EL);
         }
         // MAP CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        //const MAP_container: HTMLDivElement = document.querySelector('div.');
+        var MAP_container = document.querySelector('div.qb-map-calendar');
+        var MAP_remove = document.querySelector('div.qb-mc-days-number-group');
+        MAP_remove.remove();
+        var MAP_qb_mc_days_number_group_EL = document.createElement('div');
+        MAP_qb_mc_days_number_group_EL.setAttribute('class', 'qb-mc-days-number-group');
+        MAP_container.appendChild(MAP_qb_mc_days_number_group_EL);
+        var _loop_2 = function (i) {
+            var MAP_qb_mc_days_number_item_box_EL = document.createElement('div');
+            var MAP_qb_mc_days_number_item_content_EL = document.createElement('div');
+            MAP_qb_mc_days_number_item_box_EL.setAttribute('class', 'qb-mc-days-number-item-box');
+            MAP_qb_mc_days_number_item_content_EL.setAttribute('class', 'qb-mc-days-number-item-content');
+            if (i >= init_IDX) {
+                MAP_qb_mc_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+            }
+            MAP_qb_mc_days_number_group_EL.appendChild(MAP_qb_mc_days_number_item_box_EL);
+            MAP_qb_mc_days_number_item_box_EL.appendChild(MAP_qb_mc_days_number_item_content_EL);
+            ['click', 'touchend'].forEach(function (ev) {
+                MAP_qb_mc_days_number_item_content_EL.addEventListener(ev, function () {
+                    var val = MAP_qb_mc_days_number_item_content_EL.textContent;
+                    if (Number(val) > 0) {
+                        _this.setChoosedDay(MAP_qb_mc_days_number_item_content_EL.textContent);
+                    }
+                }, false);
+            });
+        };
+        for (var i = 0; i < monthDays + init_IDX; i++) {
+            _loop_2(i);
+        }
     };
     Functions.prototype.addQuest = function () {
         //
@@ -223,7 +265,7 @@ var App = /** @class */ (function () {
         layout.setLayout_DESKTOP();
         var func = new Functions();
         func.setInitialGlobalVariables();
-        func.getFullData();
+        func.setChoosedDay();
         func.navArrow_Next();
         func.navArrow_Prev();
         func.buttonsMonth();
