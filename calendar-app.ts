@@ -7,8 +7,9 @@ type Functions_IFC = {
     init_IDX: number;
     choosedDate: any;
     currentPosition: any;
+    qb_title_EL: HTMLDivElement;
     setInitialGlobalVariables: Function;
-    getFullData: Function;
+    setChoosedDay: Function;
     navArrow_Next: Function;
     navArrow_Prev: Function;
     getMonthDays: Function;
@@ -27,49 +28,61 @@ class Functions implements Functions_IFC {
     init_IDX: number;
     choosedDate: any;
     currentPosition: any;
-    cb_title_EL: HTMLDivElement;
+    qb_title_EL: HTMLDivElement;
     public setInitialGlobalVariables(): void {
         this.counterYear = new Date().getFullYear();
         this.counterMonth = new Date().getMonth();
         this.counterDay = new Date().getDate();
         this.getMonthDays(this.counterYear, this.counterMonth);
         const month_AR: string[] = ['Styczeń ', 'Luty ',  'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
-        const qb_title_EL: HTMLDivElement = document.querySelector('div.qb-title');
-        qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+        this.qb_title_EL = document.querySelector('div.qb-title');
+        this.qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
         this.choosedDate = {year: new Date().getFullYear(), month: new Date().getMonth()};
         this.currentPosition = {year: new Date().getFullYear(), month: new Date().getMonth()}
         console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
         // Wyróżnienie aktualnego dnia:
-        ['click', 'touchend', 'load'].forEach((ev) => {
+        ['load'].forEach((ev) => {
             window.addEventListener(ev, () => {
-                // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
-                if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
-                    let num: string = '';
-                    let aval_AR: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ','];   // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
-                    // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
-                    let val: string = qb_title_EL.textContent;
-                    for (let i: number = 0; i < val.length; i++) {
-                        for (let j: number = 0; j < aval_AR.length; j++) {
-                            if (val.charAt(i) === aval_AR[j] && num.length < 2)
-                            {
-                                num += val.charAt(i);
-                            }
-                        }
-                    }
-                    if (num.charAt(num.length - 1) === ',') {   // Pozbywanie się przecinka
-                        num = num.slice(0, -1);
-                    }
-                    const cb_days_number_group: any = document.querySelectorAll('div.cb-days-number-item-content');
-                    const currentDay: HTMLDivElement = cb_days_number_group[Number(num) - 1 + this.init_IDX];
-                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
-                    currentDay.style.border = "3px solid #bbb";
-                    console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
-                }
+                this.setChoosedDay();
             }, false);
         });
     }
-    public getFullData(): void {
-        const data: Date = new Date();
+    public setChoosedDay(day?: string): void {
+        // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
+        if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
+            let num: string = '';
+            let aval_AR: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ','];   // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
+            // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
+            let val: string = this.qb_title_EL.textContent;
+            for (let i: number = 0; i < val.length; i++) {
+                for (let j: number = 0; j < aval_AR.length; j++) {
+                    if (val.charAt(i) === aval_AR[j] && num.length < 2) {
+                        num += val.charAt(i);
+                    }
+                }
+            }
+            if (num.charAt(num.length - 1) === ',') {   // Pozbywanie się przecinka
+                num = num.slice(0, -1);
+            }
+            num = (day !== undefined) ? day : num;   // Jeśli wartość zmiennej "day" istnieje
+            // MAIN CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            const MAIN_cb_days_number_item_box_EL: any = document.querySelectorAll('div.cb-days-number-item-box');
+            const MAIN_cb_days_number_item_content_EL: any = document.querySelectorAll('div.cb-days-number-item-content');
+            const MAP_qb_mc_days_number_item_box_EL: any = document.querySelectorAll('div.qb-mc-days-number-item-box');
+            const MAP_qb_mc_days_number_item_content_EL: any = document.querySelectorAll('div.qb-mc-days-number-item-content');
+            for (let i: number = 0; i < this.monthDays + this.init_IDX; i++) {
+                if (i === Number(num) - 1 + this.init_IDX) {
+                    // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
+                    MAIN_cb_days_number_item_content_EL[i].style.border = "2.5px solid #b9b9b9";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "2px solid #a9a9a9";
+                } else if (i !== Number(num) - 1 + this.init_IDX) {
+                    MAIN_cb_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
+                }
+            }
+            console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
+            console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
+        }
     }
     public navArrow_Next(): void {
         const navArrowNext: HTMLDivElement = document.querySelector('div.ty-next-arrow');
@@ -166,7 +179,31 @@ class Functions implements Functions_IFC {
             MAIN_cb_days_number_item_box_EL.appendChild(MAIN_cb_days_number_item_content_EL);
         }
         // MAP CALENDAR: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        //const MAP_container: HTMLDivElement = document.querySelector('div.');
+        const MAP_container: HTMLDivElement = document.querySelector('div.qb-map-calendar');
+        const MAP_remove: HTMLDivElement = document.querySelector('div.qb-mc-days-number-group');
+        MAP_remove.remove();
+        const MAP_qb_mc_days_number_group_EL: HTMLDivElement = document.createElement('div');
+        MAP_qb_mc_days_number_group_EL.setAttribute('class', 'qb-mc-days-number-group');
+        MAP_container.appendChild(MAP_qb_mc_days_number_group_EL);
+        for (let i: number = 0; i < monthDays + init_IDX; i++) {
+            const MAP_qb_mc_days_number_item_box_EL: HTMLDivElement = document.createElement('div');
+            const MAP_qb_mc_days_number_item_content_EL: HTMLDivElement = document.createElement('div');
+            MAP_qb_mc_days_number_item_box_EL.setAttribute('class', 'qb-mc-days-number-item-box');
+            MAP_qb_mc_days_number_item_content_EL.setAttribute('class', 'qb-mc-days-number-item-content');
+            if (i >= init_IDX) {
+                MAP_qb_mc_days_number_item_content_EL.textContent = String((i + 1) - init_IDX);
+            }
+            MAP_qb_mc_days_number_group_EL.appendChild(MAP_qb_mc_days_number_item_box_EL);
+            MAP_qb_mc_days_number_item_box_EL.appendChild(MAP_qb_mc_days_number_item_content_EL);
+            ['click', 'touchend'].forEach((ev) => {
+                MAP_qb_mc_days_number_item_content_EL.addEventListener(ev, () => {
+                    let val: string = MAP_qb_mc_days_number_item_content_EL.textContent;
+                    if (Number(val) > 0) {
+                        this.setChoosedDay(MAP_qb_mc_days_number_item_content_EL.textContent);
+                    }
+                }, false);
+            });
+        }
     }
     public addQuest(): void {
         //
@@ -264,7 +301,7 @@ class App implements App_IFC {
         layout.setLayout_DESKTOP();
         const func = new Functions();
         func.setInitialGlobalVariables();
-        func.getFullData();
+        func.setChoosedDay();
         func.navArrow_Next();
         func.navArrow_Prev();
         func.buttonsMonth();
