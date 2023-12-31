@@ -9,6 +9,7 @@ type Functions_IFC = {
     currentPosition: any;
     qb_title_EL: HTMLDivElement;
     setInitialGlobalVariables: Function;
+    setChoosePosition: Function;
     setChoosedDay: Function;
     navArrow_Next: Function;
     navArrow_Prev: Function;
@@ -37,7 +38,7 @@ class Functions implements Functions_IFC {
         const month_AR: string[] = ['Styczeń ', 'Luty ',  'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
         this.qb_title_EL = document.querySelector('div.qb-title');
         this.qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
-        this.choosedDate = {year: new Date().getFullYear(), month: new Date().getMonth()};
+        this.choosedDate = {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()};
         this.currentPosition = {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()}
         console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
         // Wyróżnienie aktualnego dnia:
@@ -47,10 +48,18 @@ class Functions implements Functions_IFC {
             }, false);
         });
     }
+    public setChoosePosition(): void {
+        // Wyznaczenie pozycji wybranego dnia w kalendarzu:
+        this.choosedDate.year = this.counterYear;
+        this.choosedDate.month = this.counterMonth;
+        console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
+        console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
+    }
     public setChoosedDay(day?: string): void {
+        // Porównanie zapisanej (wcześniej wyznaczonej) pozycji dnia w kalendarzu z obecną pozycją w kalendarzu:
         // Jeżeli aktualna pozycja użytownika w kalendarzu (rok, miesiąc) odpowiada tym z aktualnie wybranej daty (domyślnie dziesiejszy), wyróżnij wybrany dzień w kalendarzach:
-        //alert(this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month)
-        //if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
+        console.log(this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month)
+        if (this.currentPosition.year === this.choosedDate.year && this.currentPosition.month === this.choosedDate.month) {
             let num: string = '';
             let aval_AR: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ','];   // Przecinek stanowi idealny przystanek, ze zwględu, iż może się wylosować jedna cyfra.
             // Gdyby o dziwo mogła wylosować się setka (+100), mamy zapas w postaci znaku " " (spacja).
@@ -84,9 +93,7 @@ class Functions implements Functions_IFC {
                     MAP_qb_mc_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
                 }
             }
-            console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
-            console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
-        //}
+        }
     }
     public navArrow_Next(): void {
         const navArrowNext: HTMLDivElement = document.querySelector('div.ty-next-arrow');
@@ -99,6 +106,9 @@ class Functions implements Functions_IFC {
                 this.getMonthDays(this.counterYear, this.counterMonth);
                 console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
                 console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
+                this.setChoosedDay();   // Trzeba wywołać, gdyż trzeba wyznaczyć pozycję wybranego dnia w kalendarzu.
+                // Wzależności od lokalizacji użytkownika w kalendarzu, a TEN przycisk powoduje zmienę pozycji w kalendarzu.
+                // Użytkownik może przejść gdzie indziej, a potem powrócić do tego miejsca. Bez tego wywołąnia nie zostanie wyróżniony aktualny dzień.
             }, false);
         });
     }
@@ -114,6 +124,7 @@ class Functions implements Functions_IFC {
                     ty_value__EL.textContent = String(this.counterYear);
                     console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
                     console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
+                    this.setChoosedDay();
                 }
             }, false);
         });
@@ -135,6 +146,7 @@ class Functions implements Functions_IFC {
                     this.createMonthDays(this.monthDays, this.counterYear, this.counterMonth);
                     console.log(this.choosedDate.year +  " | " + this.choosedDate.month);
                     console.log(this.currentPosition.year +  " | " + this.currentPosition.month);
+                    this.setChoosedDay();
                 }, false);
             });
         }
@@ -209,6 +221,7 @@ class Functions implements Functions_IFC {
                 MAP_qb_mc_days_number_item_content_EL.addEventListener(ev, () => {
                     let val: string = MAP_qb_mc_days_number_item_content_EL.textContent;
                     if (Number(val) > 0) {
+                        this.setChoosePosition();
                         this.setChoosedDay(MAP_qb_mc_days_number_item_content_EL.textContent);
                     }
                 }, false);
