@@ -3,6 +3,7 @@ var Functions = /** @class */ (function () {
     }
     Functions.prototype.setInitialGlobalVariables = function () {
         var _this = this;
+        document.querySelector('div.ty-value').textContent = String(new Date().getFullYear());
         this.counterYear = new Date().getFullYear();
         this.counterMonth = new Date().getMonth();
         this.counterDay = new Date().getDate();
@@ -10,6 +11,7 @@ var Functions = /** @class */ (function () {
         var month_AR = ['Styczeń ', 'Luty ', 'Marzec ', 'Kwiecień ', 'Maj ', 'Czerwiec ', 'Lipiec ', 'Sierpień ', 'Wrzesień ', 'Październik ', 'Listopad ', 'Grudzień '];
         this.qb_title_EL = document.querySelector('div.qb-title');
         this.qb_title_EL.textContent = month_AR[(new Date().getMonth())] + new Date().getDate() + ', ' + new Date().getFullYear();
+        document.querySelector('div.cb-title').textContent = month_AR[(new Date().getMonth())];
         this.choosedDate = { year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate() };
         this.currentPosition = { year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate() };
         console.log(this.choosedDate.year + " | " + this.choosedDate.month);
@@ -57,13 +59,13 @@ var Functions = /** @class */ (function () {
             for (var i = 0; i < this.monthDays + this.init_IDX; i++) {
                 if (i === Number(num) - 1 + this.init_IDX) {
                     // num - numer dnia | - 1 - numer dnia nie jest liczony jak indeksy, więc trzeba odjąć 1 | this.init_IDX - indeks dodatkowego bloku odstępowego w kalendarzu
-                    MAIN_cb_days_number_item_content_EL[i].style.border = "2.5px solid #b9b9b9";
-                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "2px solid #a9a9a9";
+                    MAIN_cb_days_number_item_content_EL[i].style.border = "2.5px solid #999999";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "2px solid #999999";
                     this.qb_title_EL.textContent = month_AR[this.currentPosition.month] + this.currentPosition.day + ', ' + this.currentPosition.year;
                 }
                 else if (i !== Number(num) - 1 + this.init_IDX) {
-                    MAIN_cb_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
-                    MAP_qb_mc_days_number_item_content_EL[i].style.border = "0px solid #d9d9d9";
+                    MAIN_cb_days_number_item_content_EL[i].style.borderWidth = "0px";
+                    MAP_qb_mc_days_number_item_content_EL[i].style.borderWidth = "0px";
                 }
             }
         }
