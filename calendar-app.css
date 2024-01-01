@@ -254,8 +254,8 @@ body {
                     --border-top-right: 12px;
                     --border-bottom-left: 12px;
                     --border-bottom-right: 12px;
-                    --calendar-border-color-1: #d9d9d9;
-                    --calendar-border-color-2: #cccccc;
+                    --calendar-border-color-1: #cccccc;
+                    --calendar-border-color-2: #aaaaaa;
                 }
                 .cb-header {
                     width: 100%;
